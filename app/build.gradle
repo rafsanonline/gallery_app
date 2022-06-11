@@ -38,6 +38,20 @@ android {
             }
         }
 
+        flavorDimensions "version"
+        productFlavors {
+            demo {
+                dimension "version"
+                buildConfigField "String", "SERVER_URL", '"https://api.unsplash.com/"'
+                buildConfigField "String", "ACCESS_KEY", '"OPp9vK2qK8HLoo9bvB1MCOHq28Qpvimtdy7MD_yPe_o"'
+            }
+            live {
+                dimension "version"
+                buildConfigField "String", "SERVER_URL", '"https://api.unsplash.com/"'
+                buildConfigField "String", "ACCESS_KEY", '"OPp9vK2qK8HLoo9bvB1MCOHq28Qpvimtdy7MD_yPe_o"'
+            }
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
