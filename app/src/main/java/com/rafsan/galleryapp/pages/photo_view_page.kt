@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -15,23 +16,31 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavController
 import androidx.paging.ExperimentalPagingApi
 import com.rafsan.galleryapp.utils.LoadingItem
 import com.rafsan.galleryapp.view_model.MainViewModel
+import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.glide.GlideImage
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
 
 @ExperimentalPagingApi
@@ -47,7 +56,7 @@ fun photoViewPage(
         }, success = { imageState ->
             imageState.drawable?.toBitmap().let {
                 viewModel.imageData = it
-                Image(bitmap = viewModel.imageData!!.asImageBitmap(), contentDescription = "Preview Image", contentScale = ContentScale.Crop)
+                ImagePreview(link = viewModel.imageURL!!)
             }
 
         })
@@ -127,6 +136,41 @@ fun bottomView(viewModel: MainViewModel) {
     }
 }
 
+@Composable
+fun ImagePreview(link: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        var angle by remember { mutableStateOf(0f) }
+        var zoom by remember { mutableStateOf(1f) }
+        var offsetX by remember { mutableStateOf(0f) }
+        var offsetY by remember { mutableStateOf(0f) }
+
+        CoilImage(
+            imageModel = link,
+            contentDescription = "image",
+            modifier = Modifier
+                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+                .graphicsLayer(
+                    scaleX = zoom,
+                    scaleY = zoom,
+                    rotationZ = angle
+                )
+                .pointerInput(Unit) {
+                    detectTransformGestures(
+                        onGesture = { _, pan, gestureZoom, gestureRotate ->
+                            // angle += gestureRotate
+                            zoom *= gestureZoom
+                            val x = pan.x * zoom
+                            val y = pan.y * zoom
+                            val angleRad = angle * PI / 180.0
+                            offsetX += (x * cos(angleRad) - y * sin(angleRad)).toFloat()
+                            offsetY += (x * sin(angleRad) + y * cos(angleRad)).toFloat()
+                        }
+                    )
+                }
+                .fillMaxSize()
+        )
+    }
+}
 
 
 
