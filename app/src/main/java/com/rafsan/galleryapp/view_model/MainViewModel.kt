@@ -1,5 +1,6 @@
 package com.rafsan.galleryapp.view_model
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
@@ -20,6 +21,7 @@ class MainViewModel @Inject constructor(
 
     var imageURL: String?=null
     var data: Flow<PagingData<PhotoResponseItem>>?=null
+    var imageData: Bitmap?=null
     var isPermissionGranted: Boolean= false
 
 

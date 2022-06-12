@@ -41,6 +41,7 @@ fun photoListPage(navController: NavController, viewModel: MainViewModel) {
                             .padding(1.dp)
                             .clickable {
                                 viewModel.imageURL = data[item]?.urls?.regular
+                                navController.navigate("photo_view_page")
                             }, shimmerParams = ShimmerParams(
                             baseColor = Color(0xFFF5E419),
                             highlightColor = Color(0xFFF7F7F7),
