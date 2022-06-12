@@ -23,6 +23,7 @@ import com.rafsan.galleryapp.utils.LoadingItem
 import com.rafsan.galleryapp.utils.LoadingView
 import com.rafsan.galleryapp.view_model.MainViewModel
 import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.glide.GlideImage
 
 
@@ -31,51 +32,6 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun photoListPage(navController: NavController, viewModel: MainViewModel) {
 
-    val data = viewModel.data?.collectAsLazyPagingItems()
-        Scaffold {
-            LazyVerticalGrid(cells = GridCells.Fixed(3), content = {
-                if (data != null) {
-                    items(data.itemCount) { item ->
-                        GlideImage(imageModel = data[item]?.urls?.small, modifier = Modifier
-                            .size(150.dp)
-                            .padding(1.dp)
-                            .clickable {
-                                viewModel.imageURL = data[item]?.urls?.regular
-                                navController.navigate("photo_view_page")
-                            }, shimmerParams = ShimmerParams(
-                            baseColor = Color(0xFFF5E419),
-                            highlightColor = Color(0xFFF7F7F7),
-                            durationMillis = 350,
-                            dropOff = 0.65f,
-                            tilt = 20f
-                        ))
-                    }
-                }
-            })
-    }
-        data?.apply {
-            when {
-                loadState.refresh is LoadState.Loading -> {
-                    LoadingView(modifier = Modifier.fillMaxSize())
-                }
-                loadState.append is LoadState.Loading -> {
-                    LoadingItem()
-                }
-                loadState.refresh is LoadState.Error -> {
-
-                }
-                loadState.append is LoadState.Error -> {
-
-                }
-            }
-        }
-
-}
-
-@ExperimentalPagingApi
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun checkPermission(viewModel: MainViewModel) {
     val multiplePermissionsState = rememberMultiplePermissionsState(
         permissions = listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -83,9 +39,52 @@ fun checkPermission(viewModel: MainViewModel) {
         )
     ) { permissionStateMap ->
         viewModel.isPermissionGranted = !permissionStateMap.containsValue(false)
+        if (viewModel.isPermissionGranted) {
+            navController.navigate("photo_view_page")
+        }
     }
 
-    SideEffect {
-        multiplePermissionsState.launchMultiplePermissionRequest()
+    val data = viewModel.data?.collectAsLazyPagingItems()
+    Scaffold {
+        LazyVerticalGrid(cells = GridCells.Fixed(3), content = {
+            if (data != null) {
+                items(data.itemCount) { item ->
+                    GlideImage(imageModel = data[item]?.urls?.small, modifier = Modifier
+                        .size(150.dp)
+                        .padding(1.dp)
+                        .clickable {
+                            viewModel.imageURL = data[item]?.urls?.regular
+                            if (viewModel.isPermissionGranted) {
+                                navController.navigate("photo_view_page")
+                            } else {
+                                multiplePermissionsState.launchMultiplePermissionRequest()
+                            }
+                        }, shimmerParams = ShimmerParams(
+                        baseColor = Color(0xFFF5E419),
+                        highlightColor = Color(0xFFF7F7F7),
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ))
+                }
+            }
+        })
     }
+    data?.apply {
+        when {
+            loadState.refresh is LoadState.Loading -> {
+                LoadingView(modifier = Modifier.fillMaxSize())
+            }
+            loadState.append is LoadState.Loading -> {
+                LoadingItem()
+            }
+            loadState.refresh is LoadState.Error -> {
+
+            }
+            loadState.append is LoadState.Error -> {
+
+            }
+        }
+    }
+
 }
