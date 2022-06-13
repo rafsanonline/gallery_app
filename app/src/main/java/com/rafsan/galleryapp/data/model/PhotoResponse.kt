@@ -1,6 +1,8 @@
 package com.rafsan.galleryapp.data.model
 
 import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class PhotoResponse(
@@ -27,13 +29,22 @@ data class TopicSubmissions(
 	val people: People? = null
 )
 
+
+@Entity(tableName = "photos_table")
 data class PhotoResponseItem(
 
-	@field:SerializedName("topic_submissions")
+	@PrimaryKey(autoGenerate = false)
+	var id:String,
+
+	@Embedded
+	@field:SerializedName("urls")
+	val urls: Urls?,
+
+	/*@field:SerializedName("topic_submissions")
 	val topicSubmissions: TopicSubmissions? = null,
 
-	@field:SerializedName("current_user_collections")
-	val currentUserCollections: List<Any?>? = null,
+	*//*@field:SerializedName("current_user_collections")
+	val currentUserCollections: List<Any?>? = null,*//*
 
 	@field:SerializedName("color")
 	val color: String? = null,
@@ -85,7 +96,7 @@ data class PhotoResponseItem(
 	val height: Int? = null,
 
 	@field:SerializedName("likes")
-	val likes: Int? = null
+	val likes: Int? = null*/
 )
 
 data class User(
