@@ -158,4 +158,8 @@ dependencies {
     //Runtime permission
     implementation "com.google.accompanist:accompanist-permissions:0.24.3-alpha"
 
+    //Lottie Animation
+    implementation "com.airbnb.android:lottie-compose:5.2.0"
+
+
 }

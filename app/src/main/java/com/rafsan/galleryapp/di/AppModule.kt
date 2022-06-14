@@ -1,7 +1,10 @@
 package com.rafsan.galleryapp.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.rafsan.galleryapp.BuildConfig
+import com.rafsan.galleryapp.data.local_db.PhotoDatabase
 import com.rafsan.galleryapp.data.network.IApiService
 import com.rafsan.galleryapp.data.preference.PreferencesHelper
 import dagger.Module
@@ -52,6 +55,13 @@ object AppModule {
             interceptor.level = HttpLoggingInterceptor.Level.NONE
         return interceptor
     }
+
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) : PhotoDatabase =
+        Room.databaseBuilder(app, PhotoDatabase::class.java, "photo_db")
+            .build()
 
     @Provides
     @Singleton

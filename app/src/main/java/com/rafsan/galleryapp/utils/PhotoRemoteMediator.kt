@@ -9,7 +9,7 @@ import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rafsan.galleryapp.data.local_db.PhotoDatabase
-import com.rafsan.galleryapp.data.local_db.PhotoKeyData
+import com.rafsan.galleryapp.data.model.PhotoKeyData
 import com.rafsan.galleryapp.data.model.PhotoResponseItem
 import com.rafsan.galleryapp.repo.MainRepository
 

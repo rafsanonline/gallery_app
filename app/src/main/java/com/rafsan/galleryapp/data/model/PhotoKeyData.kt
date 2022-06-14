@@ -1,4 +1,4 @@
-package com.rafsan.galleryapp.data.local_db
+package com.rafsan.galleryapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

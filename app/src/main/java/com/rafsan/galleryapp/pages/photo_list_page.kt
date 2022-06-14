@@ -18,11 +18,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.rafsan.galleryapp.activity.MainActivity
 import com.rafsan.galleryapp.utils.LoadingItem
 import com.rafsan.galleryapp.utils.LoadingView
 import com.rafsan.galleryapp.view_model.MainViewModel
 import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.coil.CoilImage
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -47,7 +48,7 @@ fun photoListPage(navController: NavController, viewModel: MainViewModel) {
         LazyVerticalGrid(cells = GridCells.Fixed(3), content = {
             if (data != null) {
                 items(data.itemCount) { item ->
-                    GlideImage(imageModel = data[item]?.urls?.small, modifier = Modifier
+                    CoilImage(imageModel = data[item]?.urls?.small, modifier = Modifier
                         .size(150.dp)
                         .padding(1.dp)
                         .clickable {
@@ -58,12 +59,12 @@ fun photoListPage(navController: NavController, viewModel: MainViewModel) {
                                 multiplePermissionsState.launchMultiplePermissionRequest()
                             }
                         }, shimmerParams = ShimmerParams(
-                        baseColor = Color(0xFFF5E419),
+                        baseColor = Color(MainActivity.MAIN_COLOR),
                         highlightColor = Color(0xFFF7F7F7),
                         durationMillis = 350,
                         dropOff = 0.65f,
                         tilt = 20f
-                    ))
+                    ),)
                 }
             }
         })

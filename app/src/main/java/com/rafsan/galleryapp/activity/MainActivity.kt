@@ -13,13 +13,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.ExperimentalPagingApi
 import com.rafsan.galleryapp.pages.photoListPage
 import com.rafsan.galleryapp.pages.photoViewPage
+import com.rafsan.galleryapp.pages.splashPage
 import com.rafsan.galleryapp.ui.theme.GalleryAppTheme
 import com.rafsan.galleryapp.view_model.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    companion object {
+        const val MAIN_COLOR = 0xFF6911A5
+    }
 
     @OptIn(ExperimentalPagingApi::class)
     private val viewModel: MainViewModel by viewModels()
@@ -39,13 +43,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun runApplication(viewModel: MainViewModel) {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "photo_list_page", builder = {
+        NavHost(navController = navController, startDestination = "splash_page", builder = {
+            composable("splash_page", content = { splashPage(navController) })
             composable("photo_list_page", content = { photoListPage(navController, viewModel) })
             composable("photo_view_page", content = { photoViewPage(navController = navController,viewModel) })
         })
     }
 }
-
 
 
 @Composable

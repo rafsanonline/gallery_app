@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.rafsan.galleryapp.activity.MainActivity.Companion.MAIN_COLOR
 
 @Composable
 fun LoadingView(
@@ -20,7 +21,7 @@ fun LoadingView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(color = Color(MAIN_COLOR))
     }
 }
 
@@ -31,7 +32,7 @@ fun LoadingItem() {
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(color = Color(MAIN_COLOR))
     }
 }
 
