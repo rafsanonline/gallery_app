@@ -16,7 +16,7 @@ The main components of the app are the following:
 3. Hilt
 4. Flow
 5. Room Database
-6. Pagin
+6. Paging
 
 Jetpack compose is the latest UI toolkit provided by android which comes with no XML.
 
