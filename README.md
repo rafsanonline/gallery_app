@@ -9,7 +9,7 @@ Link: https://unsplash.com/developers
 ## App structure
 
 I've set up a clean architecture with MVVM design pattern to develop this app with the latest android jetpack components.
-The main components of the app are the following:
+The main components of the app are following:
 
 1. Jetpack Compose
 2. View model
