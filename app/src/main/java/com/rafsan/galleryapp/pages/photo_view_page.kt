@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
@@ -125,7 +126,7 @@ fun bottomView(viewModel: MainViewModel) {
 
 
         })
-        Icon(Icons.Filled.Send, "menu", Modifier.clickable {
+        Icon(painterResource(id = R.drawable.download), "menu",Modifier.size(25.dp).clickable {
             //context.startActivity(shareIntent)
 
             var outputStream: FileOutputStream? = null
