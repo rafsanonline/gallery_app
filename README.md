@@ -1,2 +1,2 @@
 # gallery_app
-This is simple gallary app which fetches photos from the internet.
+I tried loading an image type data list with pagination and offline support.
